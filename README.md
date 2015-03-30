@@ -17,7 +17,7 @@ The examples are written in Python 2.7 and utilize a few basic libraries. The on
 We recommend running the examples with Ipython Notebook:
 
 ```
-git@github.com:o19s/taming-search-book.git
+git clone git@github.com:o19s/taming-search-book.git
 cd taming-search-book
 pip install requests
 pip install ipython
