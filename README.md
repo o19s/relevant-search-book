@@ -6,7 +6,7 @@ Code and Examples for [Taming Search](http://manning.com/turnbull) by [Doug Turn
 
 ## Installing Elasticsearch
 
-The first thing you'll need to do is [install Elasticsearch](http://www.elastic.co/guide/en/elasticsearch/reference/1.5/_installation.html). The examples expect Elasticsearch to be at localhost:9200. You can alternatively use this [Vagrant box](https://github.com/o19s/elasticsearch-vagrant) that will provision Elasticsearch for you and port forward to localhost:9200.
+The examples expect Elasticsearch to be at localhost:9200. You can use our [Vagrant box](https://github.com/o19s/elasticsearch-vagrant). This will provision Elasticsearch for you and port forward to localhost:9200. You can also follow [Elasticsearch's instructions](http://www.elastic.co/guide/en/elasticsearch/reference/1.5/_installation.html). 
 
 ## Running The Python Examples
 
