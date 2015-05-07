@@ -1,8 +1,9 @@
-# Taming Search
+# Relevant Search
+**the book**
 
 Code and Examples for [Relevant Search](http://manning.com/turnbull) by [Doug Turnbull](http://github.com/softwaredoug) and [John Berryman](http://github.com/jnbrymn). Published by [Manning Publications](http://manning.com).
 
-Taming Serach is the book on search relevancy! The examples walk you through search relevance solutions, but they probably only make sense if you also buy the book ;).
+Relevant Search is all about leveraging Solr and Elasticsearch to build more intelligent search applications with intuitive results!
 
 # How to run
 
