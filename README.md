@@ -1,6 +1,6 @@
 # Taming Search
 
-Code and Examples for [Taming Search](http://manning.com/turnbull) by [Doug Turnbull](http://github.com/softwaredoug) and [John Berryman](http://github.com/jnbrymn). Published by [Manning Publications](http://manning.com).
+Code and Examples for [Relevant Search](http://manning.com/turnbull) by [Doug Turnbull](http://github.com/softwaredoug) and [John Berryman](http://github.com/jnbrymn). Published by [Manning Publications](http://manning.com).
 
 Taming Serach is the book on search relevancy! The examples walk you through search relevance solutions, but they probably only make sense if you also buy the book ;).
 
