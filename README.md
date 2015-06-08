@@ -21,7 +21,7 @@ We recommend running the examples with Ipython Notebook:
 git clone git@github.com:o19s/relevant-search-book.git
 cd relevant-search-book
 pip install requests
-pip install ipython
+pip install "ipython[all]"
 cd ipython/
 export TMDB_API_KEY=<...>
 ipyton notebook
