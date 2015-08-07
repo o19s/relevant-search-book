@@ -12,7 +12,7 @@ The examples expect Elasticsearch to be at localhost:9200. You can use our [Vagr
 
 ## Running The Python Examples
 
-The examples are written in Python 2.7 and utilize a few basic libraries. The only external library needed is the [requests](http://docs.python-requests.org/en/latest/) HTTP library. Some of the external APIs require API keys (for example TMDB, you can obtain one [here](https://www.themoviedb.org/faq/api)).
+The examples are written in Python 2.7 in [ipython notebooks](http://ipython.org/notebook.html) depending only on a few basic libraries. The only external library needed is the [requests](http://docs.python-requests.org/en/latest/) HTTP library. Some of the external APIs require API keys (for example TMDB, you can obtain one [here](https://www.themoviedb.org/faq/api)).
 
 To run the IPython Notebook Examples
 
@@ -32,15 +32,14 @@ export TMDB_API_KEY=<...>
 
 3. OPTIONAL Download tmdb json
 
-For results consistent with the book, you can download [tmdb.json](https://s3.amazonaws.com/splainer.io/relevant-search/tmdb.json.tar.gz) and place it in the ipython folder. The link here points to a .tar.gzipped copy of the tmdb json data used to develop this book and should provide more consistent search results that the constantly updating TMDB database.
+For results consistent with the book, you can download [tmdb.json](https://s3.amazonaws.com/splainer.io/relevant-search/tmdb.json.tar.gz) and place it in the ipython folder. The link here points to a the TMDB data used to develop this book and should provide more consistent search results that the constantly updating TMDB database.
 
 4. Launch!
 
 ```ipython notebook```
 
-5. Play
+5. Play!
 
-Switch to your default browser where the Ipython examples are ready for you to experiment with.
-
+Switch to your default browser where the Ipython examples are ready for you to experiment with. Keep in mind many examples are order dependent, so you can't just jump to an interesting listing and run it. Be sure to run the prior ipython notebook commands too!
 
 Happy Searching!
