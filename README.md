@@ -1,5 +1,4 @@
 # Relevant Search
-**the book**
 
 Code and Examples for [Relevant Search](http://manning.com/turnbull) by [Doug Turnbull](http://github.com/softwaredoug) and [John Berryman](http://github.com/jnbrymn). Published by [Manning Publications](http://manning.com).
 
@@ -15,8 +14,13 @@ The examples expect Elasticsearch to be at localhost:9200. You can use our [Vagr
 
 The examples are written in Python 2.7 and utilize a few basic libraries. The only external library needed is the [requests](http://docs.python-requests.org/en/latest/) HTTP library. Some of the external APIs require API keys (for example TMDB, you can obtain one [here](https://www.themoviedb.org/faq/api)).
 
-We recommend running the examples with Ipython Notebook:
+To run the IPython Notebook Examples
 
+1. First ensure you have git, python 2.7 and pip installed and in your PATH
+
+2. Obtain a TMDB API Key [here]((https://www.themoviedb.org/faq/api). 
+
+4. Then use the following commands to install the required dependencies
 ```
 git clone git@github.com:o19s/relevant-search-book.git
 cd relevant-search-book
@@ -24,10 +28,19 @@ pip install requests
 pip install ipython
 cd ipython/
 export TMDB_API_KEY=<...>
-ipyton notebook
 ```
-Then switch to your default browser where the Ipython examples are ready for you to experiment with.
 
-Don't want to fuss with ipython notebook? Then just use the .py files in the root directory.
+3. OPTIONAL Download tmdb json
+
+For results consistent with the book, you can download [tmdb.json](https://s3.amazonaws.com/splainer.io/relevant-search/tmdb.json.tar.gz) and place it in the ipython folder. The link here points to a .tar.gzipped copy of the tmdb json data used to develop this book and should provide more consistent search results that the constantly updating TMDB database.
+
+4. Launch!
+
+```ipython notebook```
+
+5. Play
+
+Switch to your default browser where the Ipython examples are ready for you to experiment with.
+
 
 Happy Searching!
