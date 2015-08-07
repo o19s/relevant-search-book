@@ -21,22 +21,22 @@ To run the IPython Notebook Examples
 2. Obtain a TMDB API Key [here]((https://www.themoviedb.org/faq/api). 
 
 3. Then use the following commands to install the required dependencies
-```
-git clone git@github.com:o19s/relevant-search-book.git
-cd relevant-search-book
-pip install requests
-pip install ipython
-cd ipython/
-export TMDB_API_KEY=<...>
-```
+  ```
+  git clone git@github.com:o19s/relevant-search-book.git
+  cd relevant-search-book
+  pip install requests
+  pip install ipython
+  cd ipython/
+  export TMDB_API_KEY=<...>
+  ```
 
 4. OPTIONAL Download tmdb json
 
-For results consistent with the book, you can download [tmdb.json](https://s3.amazonaws.com/splainer.io/relevant-search/tmdb.json.tar.gz) and place it in the ipython folder. The link here points to a the TMDB data used to develop this book and should provide more consistent search results that the constantly updating TMDB database.
+  For results consistent with the book, you can download [tmdb.json](https://s3.amazonaws.com/splainer.io/relevant-search/tmdb.json.tar.gz) and place it in the ipython folder. The link here points to a the TMDB data used to develop this book and should provide more consistent search results that the constantly updating TMDB database.
 
 5. Launch!
 
-```ipython notebook```
+  ```ipython notebook```
 
 6. Play!
 
