@@ -20,7 +20,7 @@ To run the IPython Notebook Examples
 
 2. Obtain a TMDB API Key [here]((https://www.themoviedb.org/faq/api). 
 
-4. Then use the following commands to install the required dependencies
+3. Then use the following commands to install the required dependencies
 ```
 git clone git@github.com:o19s/relevant-search-book.git
 cd relevant-search-book
@@ -30,15 +30,15 @@ cd ipython/
 export TMDB_API_KEY=<...>
 ```
 
-3. OPTIONAL Download tmdb json
+4. OPTIONAL Download tmdb json
 
 For results consistent with the book, you can download [tmdb.json](https://s3.amazonaws.com/splainer.io/relevant-search/tmdb.json.tar.gz) and place it in the ipython folder. The link here points to a the TMDB data used to develop this book and should provide more consistent search results that the constantly updating TMDB database.
 
-4. Launch!
+5. Launch!
 
 ```ipython notebook```
 
-5. Play!
+6. Play!
 
 Switch to your default browser where the Ipython examples are ready for you to experiment with. Keep in mind many examples are order dependent, so you can't just jump to an interesting listing and run it. Be sure to run the prior ipython notebook commands too!
 
