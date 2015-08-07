@@ -40,6 +40,6 @@ To run the IPython Notebook Examples
 
 6. Play!
 
-Switch to your default browser where the Ipython examples are ready for you to experiment with. Keep in mind many examples are order dependent, so you can't just jump to an interesting listing and run it. Be sure to run the prior ipython notebook commands too!
+Switch to your default browser where the Ipython examples are ready for you to experiment with. Keep in mind many examples are order dependent, so you can't just jump to an interesting listing and run it. Indexing commands with certain settings and what not need to be run. Be sure to run the prior ipython notebook commands too!
 
 Happy Searching!
