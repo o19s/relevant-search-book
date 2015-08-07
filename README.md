@@ -18,7 +18,7 @@ To run the IPython Notebook Examples
 
 1. First ensure you have git, python 2.7 and pip installed and in your PATH
 
-2. Obtain a TMDB API Key [here]((https://www.themoviedb.org/faq/api). 
+2. Obtain a TMDB API Key [here](https://www.themoviedb.org/faq/api). 
 
 3. Then use the following commands to install the required dependencies
   ```
