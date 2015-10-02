@@ -45,7 +45,9 @@ To use the vagrant box
   ```
 
 
-You can use our [Vagrant box](https://github.com/o19s/elasticsearch-vagrant). This will provision Elasticsearch for you and port forward to localhost:9200. You can also follow [Elasticsearch's instructions](http://www.elastic.co/guide/en/elasticsearch/reference/1.5/_installation.html). 
+### Locally on Your Machine
+
+Follow [Elasticsearch's instructions](http://www.elastic.co/guide/en/elasticsearch/reference/1.5/_installation.html) to install Elasticsearch on your machine. 
 
 ## Running The Python Examples
 
