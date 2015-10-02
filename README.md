@@ -15,17 +15,21 @@ The examples expect Elasticsearch to be hosted at localhost:9200. So you'll need
 Vagrant is a tool for installing and provisioning virtual machines locally for development purposes. If you've never used vagrant, you can follow the installation instructions [here](https://docs.vagrantup.com/v2/installation/). OpenSource Connections maintains a basic Elasticsearch vagrant box [here](https://github.com/o19s/elasticsearch-vagrant).
 
 To use the vagrant box
+
 1. Install vagrant
 2. Clone the Elasticsearch vagrant box from Github locally
+
    ```
    git clone git@github.com:o19s/elasticsearch-vagrant.git
    ```
 3. Provision the Vagrant box (this install Elasticsearch and turns the box on)
+
    ```
    cd elasticsearch-vagrant
    vagrant up --provision
    ```
 4. Confirm Elasticsearch is running
+
   ```
   curl -XGET http://localhost:9200
   ```
