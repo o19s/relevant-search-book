@@ -6,6 +6,14 @@ Relevant Search is all about leveraging Solr and Elasticsearch to build more int
 
 # How to run
 
+## Installing Python and Dependencies
+
+Examples for this book are written in Python 2.7 and use iPython notebook. The first thing you'll need to do is install Python, pip (the Python package installer) and the Python requests library.
+
+1. Install Python for your platform [here](https://www.python.org/downloads/). For Windows we recommend the [ActivePython](http://www.activestate.com/activepython) distribution.
+2. Install pip by simply running `easy_install pip`
+3. Install virtualenv by running `pip install virtualenv`. This lets us bundle any Python dependecies with the project, avoiding you needing to install a long list of dependencies global.
+
 ## Installing Elasticsearch
 
 The examples expect Elasticsearch to be hosted at localhost:9200. So you'll need to install Elasticsearch to work with the examples. There's two ways to install Elasticsearch
