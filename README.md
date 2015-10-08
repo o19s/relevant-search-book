@@ -6,15 +6,14 @@ Relevant Search is all about leveraging Solr and Elasticsearch to build more int
 
 # How to run
 
-## Installing Python and Dependencies
+## Install Python
 
-Examples for this book are written in Python 2.7 and use iPython notebook. The first thing you'll need to do is install Python, pip (the Python package installer) and the Python virtualenv library.
+Examples for this book are written in Python 2.7 and use iPython notebook. The first thing you'll need to do is install Python, pip (the Python package installer).
 
 1. Install Python for your platform [here](https://www.python.org/downloads/). For Windows we recommend the [ActivePython](http://www.activestate.com/activepython) distribution.
-2. Install pip by simply running `easy_install pip`
-3. Install virtualenv by running `pip install virtualenv`. This lets us bundle any Python dependecies with the project, avoiding you needing to install a long list of dependencies global.
+2. Install pip, the Python installer, by simply running `easy_install pip`
 
-## Installing Elasticsearch
+## Install Elasticsearch
 
 The examples expect Elasticsearch to be hosted at localhost:9200. So you'll need to install Elasticsearch to work with the examples. There's two ways to install Elasticsearch
 
@@ -46,6 +45,21 @@ To use the vagrant box
   
   You should see JSON returned from the Elasticsearch instance. Something like:
 
+   ```json
+      {
+        "name" : "Mary Zero",
+        "cluster_name" : "elasticsearch",
+        "version" : {
+          "number" : "2.0.0-rc1",
+          "build_hash" : "4757962b01a4d837af282f90df9e1fbdb68b524e",
+          "build_timestamp" : "2015-10-01T10:06:08Z",
+          "build_snapshot" : false,
+          "lucene_version" : "5.2.1"
+        },
+        "tagline" : "You Know, for Search"
+      }
+   ```
+
 5. When you're done working with examples, turn off the Vagrant box
 
   ```
@@ -65,21 +79,14 @@ To run the IPython Notebook Examples
 
 1. First ensure you have git, python 2.7 and pip installed and in your PATH
 
-2. Obtain a TMDB API Key [here](https://www.themoviedb.org/faq/api). 
-
-3. Then use the following commands to install the required dependencies
+2. Then use the following commands to install the required dependencies
   ```
   git clone git@github.com:o19s/relevant-search-book.git
   cd relevant-search-book
   pip install requests
   pip install ipython
   cd ipython/
-  export TMDB_API_KEY=<...>
   ```
-
-4. OPTIONAL Download tmdb json
-
-  For results consistent with the book, you can download [tmdb.json](https://s3.amazonaws.com/splainer.io/relevant-search/tmdb.json.tar.gz) and place it in the ipython folder. The link here points to a the TMDB data used to develop this book and should provide more consistent search results that the constantly updating TMDB database.
 
 5. Launch!
 
