@@ -84,7 +84,7 @@ To run the IPython Notebook Examples
   git clone git@github.com:o19s/relevant-search-book.git
   cd relevant-search-book
   pip install requests
-  pip install ipython
+  pip install jupyter
   cd ipython/
   ```
 
