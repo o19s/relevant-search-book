@@ -24,7 +24,17 @@ def extract():
     return {}
 
 
-def reindex(elastic_search: Elasticsearch, movie_dict={}):
+def reindex(elastic_search: Elasticsearch, movie_dict={}, analysis_settings={}):
+    if elastic_search.indices.exists(index="tmdb"):
+        elastic_search.indices.delete(index="tmdb")
+    settings = {
+        "number_of_shards": 1,
+        "number_of_replicas": 0,
+        "index": {
+            "analysis": analysis_settings
+        }
+    }
+    elastic_search.indices.create(index="tmdb", settings=settings)
 
     logging.info("building...")
     movies_for_dump = []
@@ -65,41 +75,44 @@ def main():
         basic_auth=("elastic", "RXW*2QC=dceb-JR=vnEc")
     )
 
-    mapping_settings = {
-        "properties": {
-            "title": {
-                "type": "text",
-                "analyzer": "english"
+    analysis_settings = {
+        "analyzer": {
+            "default": {
+                "type": "english"
             },
-            "overview": {
-                "type": "text",
-                "analyzer": "english"
+            "english_bigrams": {
+                "type": "custom",
+                "tokenizer": "standard",
+                "filter": [
+                    "lowercase",
+                    "porter_stem",
+                    "bigram_filter"
+                ]
+            }
+        },
+        "filter": {
+            "bigram_filter": {
+                "type": "shingle",
+                "max_shingle_size": 2,
+                "min_shingle_size": 2,
+                "output_unigrams": "false"
             }
         }
     }
 
-    settings = {
-        "number_of_shards": 1,
-        "number_of_replicas": 0
-    }
+    #TODO: Add mapping settings to apply the filter for Patrick Steward
 
-    es.indices.delete(index="tmdb")
-    if not es.indices.exists(index="tmdb"):
-        es.indices.create(index="tmdb", mappings=mapping_settings, settings=settings)
-        reindex(elastic_search=es, movie_dict=movie_dict)
+    reindex(elastic_search=es, movie_dict=movie_dict, analysis_settings=analysis_settings)
 
-    query_string = "basketball with cartoon aliens"
-
-    query_lower_title = {
+    query = {
         "multi_match": {
-            "query": query_string,
-            "fields": ["title^0.1", "overview"]
+            "query": "patrick stewart",
+            "fields": ["title", "overview", "cast.name", "directors.name^0.1"],
+            "type": "best_fields"
         }
     }
 
-
-    # TODO: Search with 'best fields' for "Patrick Steward" and be biased toward Star Trek
-    resp = es.search(index="tmdb", query=query_lower_title, explain=True)
+    resp = es.search(index="tmdb", query=query, explain=True)
     print_query_results(resp, explain=False)
 
 
