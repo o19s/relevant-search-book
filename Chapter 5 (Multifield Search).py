@@ -97,6 +97,8 @@ def main():
         }
     }
 
+
+    # TODO: Search with 'best fields' for "Patrick Steward" and be biased toward Star Trek
     resp = es.search(index="tmdb", query=query_lower_title, explain=True)
     print_query_results(resp, explain=False)
 
