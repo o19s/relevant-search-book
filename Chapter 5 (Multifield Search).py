@@ -13,7 +13,7 @@ def simpler_explain(explain_json, depth=0):
     result = " " * (depth * 2) + "%s, %s\n" % (explain_json['value'], explain_json['description'])
     if 'details' in explain_json:
         for detail in explain_json['details']:
-            result += explain_json(detail, depth=depth+1)
+            result += explain_json(detail, depth=depth + 1)
     return result
 
 
@@ -24,7 +24,7 @@ def extract():
     return {}
 
 
-def reindex(elastic_search: Elasticsearch, movie_dict={}, analysis_settings={}):
+def reindex(elastic_search: Elasticsearch, movie_dict={}, analysis_settings={}, mapping_settings={}):
     if elastic_search.indices.exists(index="tmdb"):
         elastic_search.indices.delete(index="tmdb")
     settings = {
@@ -34,7 +34,8 @@ def reindex(elastic_search: Elasticsearch, movie_dict={}, analysis_settings={}):
             "analysis": analysis_settings
         }
     }
-    elastic_search.indices.create(index="tmdb", settings=settings)
+
+    elastic_search.indices.create(index="tmdb", settings=settings, mappings=mapping_settings)
 
     logging.info("building...")
     movies_for_dump = []
@@ -100,19 +101,46 @@ def main():
         }
     }
 
-    #TODO: Add mapping settings to apply the filter for Patrick Steward
+    mapping_settings = {
+        "properties": {
+            "cast": {
+                "properties": {
+                    "name": {
+                        "type": "text",
+                        "analyzer": "english",
+                        "fields": {
+                            "bigrammed": {
+                                "type": "text",
+                                "analyzer": "english_bigrams"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-    reindex(elastic_search=es, movie_dict=movie_dict, analysis_settings=analysis_settings)
+    reindex(elastic_search=es, movie_dict=movie_dict, analysis_settings=analysis_settings,
+            mapping_settings=mapping_settings)
 
     query = {
         "multi_match": {
             "query": "patrick stewart",
-            "fields": ["title", "overview", "cast.name", "directors.name^0.1"],
-            "type": "best_fields"
+            "fields": ["title", "overview", "cast.name.bigrammed^5", "directors.name.bigrammed"],
+            "type": "best_fields",
+            "tie_breaker": 0.4
         }
     }
 
-    resp = es.search(index="tmdb", query=query, explain=True)
+    query_most_fields = {
+        "multi_match": {
+            "query": "star trek patrick stewart",
+            "fields": ["title", "overview", "cast.name.bigrammed", "directors.name.bigrammed"],
+            "type": "most_fields",
+        }
+    }
+
+    resp = es.search(index="tmdb", query=query_most_fields, explain=True)
     print_query_results(resp, explain=False)
 
 
