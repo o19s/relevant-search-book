@@ -123,7 +123,7 @@ def main():
     reindex(elastic_search=es, movie_dict=movie_dict, analysis_settings=analysis_settings,
             mapping_settings=mapping_settings)
 
-    query = {
+    query_best_fields = {
         "multi_match": {
             "query": "patrick stewart",
             "fields": ["title", "overview", "cast.name.bigrammed^5", "directors.name.bigrammed"],
@@ -139,6 +139,8 @@ def main():
             "type": "most_fields",
         }
     }
+    resp = es.search(index="tmdb", query=query_best_fields, explain=True)
+    print_query_results(resp, explain=False)
 
     resp = es.search(index="tmdb", query=query_most_fields, explain=True)
     print_query_results(resp, explain=False)
