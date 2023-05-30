@@ -2,19 +2,7 @@ from tqdm import tqdm
 import json
 import logging
 from elasticsearch import Elasticsearch
-
-
-def flatten(l):
-    [item for sublist in l for item in sublist]
-
-
-def simpler_explain(explain_json, depth=0):
-    result = " " * (depth * 2) + "%s, %s\n" % (explain_json['value'], explain_json['description'])
-    if 'details' in explain_json:
-        for detail in explain_json['details']:
-            result += explain_json(detail, depth=depth+1)
-    return result
-
+from elasticsearch.helpers import bulk
 
 def extract():
     f = open('tmdb.json')
@@ -26,14 +14,20 @@ def extract():
 def reindex(elastic_search: Elasticsearch, movie_dict={}):
 
     logging.info("building...")
+    movies_for_dump = []
+    index = 1
     for movie_id, movie in tqdm(movie_dict.items()):
         doc = {
-            'movie_id': movie["id"],
-            'movie_title': movie["title"],
-            'movie_overview': movie["overview"]
+            "_index": "tmdb",
+            '_id': str(index),
+            '_source': movie
         }
-        elastic_search.index(index="tmdb", id=movie_id, document=doc)
-
+        index += 1
+        movies_for_dump.append(doc)
+    with open("f.txt", "w") as file:
+        file.write(json.dumps(movies_for_dump))
+    file.close()
+    bulk(elastic_search, movies_for_dump)
     logging.info("indexing...")
 
 
@@ -41,7 +35,7 @@ def print_query_results(query_response, explain=False):
     print(f"Got {query_response['hits']['total']['value']} Hits:")
     num = 1
     for hit in query_response['hits']['hits']:
-        print(f"""{num}: {hit['_source']['movie_title']} score: {hit['_score']}""")
+        print(f"""{num}: {hit['_source']['title']} score: {hit['_score']}""")
         num+=1
         # Uncomment to see explanation for each hit
         if "_explanation" in hit.keys() and explain:
@@ -60,11 +54,11 @@ def main():
 
     mapping_settings = {
         "properties": {
-            "movie_title": {
+            "title": {
                 "type": "text",
                 "analyzer": "english"
             },
-            "movie_overview": {
+            "overview": {
                 "type": "text",
                 "analyzer": "english"
             }
@@ -86,21 +80,21 @@ def main():
     query = {
         "multi_match": {
             "query": query_string,
-            "fields": ["movie_title^10", "movie_overview"]
+            "fields": ["title^10", "overview"]
         }
     }
 
     query_lower_title = {
         "multi_match": {
             "query": query_string,
-            "fields": ["movie_title^0.1", "movie_overview"]
+            "fields": ["title^0.1", "overview"]
         }
     }
-    print("Normal Query")
-    resp = es.search(index="tmdb", query=query, from_=30, explain=True)
+    print(f"Query asked: {query_string}")
+    print("With title set as significant")
+    resp = es.search(index="tmdb", query=query, explain=True)
     print_query_results(resp)
-    print()
-    print("Query with title smaller")
+    print("With smaller importance on title")
     resp = es.search(index="tmdb", query=query_lower_title, explain=True)
     print_query_results(resp, explain=False)
 
