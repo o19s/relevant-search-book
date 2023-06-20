@@ -3,6 +3,10 @@ import json
 import logging
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
+import click
+
+SENTINEL_BEGIN = "SENTINEL_BEGIN"
+SENTINEL_END = "SENTINEL_END"
 
 
 def flatten(l):
@@ -22,6 +26,14 @@ def extract():
     if f:
         return json.loads(f.read())
     return {}
+
+
+def transform_movie_for_index(movie):
+    movie["title_exact_match"] = f"{SENTINEL_BEGIN} {movie['title']} {SENTINEL_END}"
+    movie["names_exact_match"] = []
+    for person in movie["directors"] + movie["cast"]:
+        movie["names_exact_match"].append(f"{SENTINEL_BEGIN} {person['name']} {SENTINEL_END}")
+    return movie
 
 
 def reindex(elastic_search: Elasticsearch, movie_dict={}, analysis_settings={}, mapping_settings={}):
@@ -44,7 +56,7 @@ def reindex(elastic_search: Elasticsearch, movie_dict={}, analysis_settings={}, 
         doc = {
             "_index": "tmdb",
             '_id': str(index),
-            '_source': movie
+            '_source': transform_movie_for_index(movie)
         }
         index += 1
         movies_for_dump.append(doc)
@@ -67,13 +79,39 @@ def print_query_results(query_response, explain=False):
                 print(json.dumps(detail["details"], indent=True))
 
 
-def main():
+def query_scoring_tiers(user_query):
+    return {
+        "bool": {
+            "should": [
+                {
+                    "match_phrase": {
+                        "title_exact_match": {
+                            "query": f"{SENTINEL_BEGIN} {user_query} {SENTINEL_END}",
+                            "boost": 1000
+                        }
+                    }
+                },
+                {
+                    "multi_match": {
+                        "query": user_query,
+                        "fields": ["overview", "title", "directors.name", "cast.name"],
+                        "type": "cross_fields"
+                    }
+                }
+            ]
+        }
+    }
+
+@click.command()
+@click.option("--cert")
+@click.option("--password")
+def main(cert, password):
     movie_dict = extract()
     # Authenticate from the constructor
     es = Elasticsearch(
         "https://localhost:9200",
-        ca_certs="/home/peczek/Programs/elasticsearch-8.7.1/config/certs/http_ca.crt",
-        basic_auth=("elastic", "RXW*2QC=dceb-JR=vnEc")
+        ca_certs=cert,
+        basic_auth=("elastic", password)
     )
 
     analysis_settings = {
@@ -184,9 +222,9 @@ def main():
                 {
                     "weight": 2.5,
                     "filter": {
-                            "match_phrase": {
-                                "title": "star trek"
-                            }
+                        "match_phrase": {
+                            "title": "star trek"
+                        }
                     }
                 }
             ]
@@ -196,7 +234,22 @@ def main():
     resp = es.search(index="tmdb", query=function_query, explain=True, size=5)
     print_query_results(resp, explain=False)
 
+    query_exact_title_match = {
+        "match_phrase": {
+            "title_exact_match": {
+                "query": f"{SENTINEL_BEGIN} star trek {SENTINEL_END}",
+                "boost": 0.1
+            }
+        }
+    }
+    resp = es.search(index="tmdb", query=query_exact_title_match, explain=True, size=5)
+    print_query_results(resp, explain=False)
 
+    resp = es.search(index="tmdb", query=query_scoring_tiers("star trek"), explain=True, size=5)
+    print_query_results(resp, explain=False)
+
+    resp = es.search(index="tmdb", query=query_scoring_tiers("Good Will Hunting"), explain=True, size=5)
+    print_query_results(resp, explain=False)
 
 
 if __name__ == "__main__":
